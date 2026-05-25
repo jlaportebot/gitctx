@@ -1,3 +1,3 @@
-"""gitctx — Switch Git user configs per directory."""
+"""gitctx — Switch Git user configs per directory, with auto-detection."""
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"
