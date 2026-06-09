@@ -1,8 +1,5 @@
 """Tests for gitctx CLI."""
 
-import tempfile
-from pathlib import Path
-
 import pytest
 from gitctx.cli import main
 
@@ -26,7 +23,18 @@ class TestAddCommand:
         assert "jane@work.com" in out
 
     def test_add_with_signingkey(self, tmp_config, capsys):
-        rc = main(["add", "oss", "--name", "Jane", "--email", "jane@oss.com", "--signingkey", "ABC"])
+        rc = main(
+            [
+                "add",
+                "oss",
+                "--name",
+                "Jane",
+                "--email",
+                "jane@oss.com",
+                "--signingkey",
+                "ABC",
+            ]
+        )
         assert rc == 0
         out = capsys.readouterr().out
         assert "ABC" in out

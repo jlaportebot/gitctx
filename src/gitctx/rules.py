@@ -3,7 +3,7 @@
 from __future__ import annotations
 
 import re
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
 
@@ -14,7 +14,7 @@ except ModuleNotFoundError:  # Python < 3.11
 
 import tomli_w
 
-from .profiles import CONFIG_DIR, Profile, load_profiles
+from .profiles import CONFIG_DIR, load_profiles
 
 RULES_FILE = CONFIG_DIR / "rules.toml"
 
@@ -146,7 +146,9 @@ def _match_path(glob_pattern: str, cwd: str = ".") -> bool:
     """Check if the current directory matches the path glob pattern."""
     try:
         repo_path = Path(cwd).resolve()
-        return repo_path in Path(".").resolve().glob(glob_pattern) or bool(Path(cwd).resolve().glob(glob_pattern))
+        return repo_path in Path(".").resolve().glob(glob_pattern) or bool(
+            Path(cwd).resolve().glob(glob_pattern)
+        )
     except (OSError, ValueError):
         return False
 
@@ -173,9 +175,8 @@ def auto_detect(cwd: str = ".") -> Optional[str]:
 
         # If both patterns are specified, both must match (AND logic)
         if rule.remote_pattern and rule.path_glob:
-            matched = (
-                _match_remote(rule.remote_pattern, urls)
-                and _match_path(rule.path_glob, resolved_cwd)
+            matched = _match_remote(rule.remote_pattern, urls) and _match_path(
+                rule.path_glob, resolved_cwd
             )
 
         if matched:

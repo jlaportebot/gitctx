@@ -3,14 +3,13 @@
 from __future__ import annotations
 
 import argparse
-import sys
 
 from rich.console import Console
 from rich.table import Table
 
 from . import __version__
 from .gitutils import apply_profile, detect_profile, get_current_config, is_git_repo
-from .profiles import Profile, add_profile, get_profile, list_profiles, remove_profile
+from .profiles import add_profile, get_profile, list_profiles, remove_profile
 from .rules import add_rule, auto_detect, load_rules, remove_rule as remove_rule_func
 
 console = Console()
@@ -121,12 +120,16 @@ def _cmd_auto(args: argparse.Namespace) -> int:
     alias = auto_detect(cwd)
     if alias is None:
         err_console.print("[yellow]⚠ No auto-detection rule matches this repo.[/]")
-        err_console.print("[dim]Add rules with: gitctx rule add --profile <name> --remote <pattern>[/]")
+        err_console.print(
+            "[dim]Add rules with: gitctx rule add --profile <name> --remote <pattern>[/]"
+        )
         return 1
 
     profile = get_profile(alias)
     if profile is None:
-        err_console.print(f"[red]✘ Rule matched profile '{alias}' but that profile doesn't exist.[/]")
+        err_console.print(
+            f"[red]✘ Rule matched profile '{alias}' but that profile doesn't exist.[/]"
+        )
         return 1
 
     if not args.dry_run:
@@ -174,7 +177,9 @@ def _cmd_rule_list(args: argparse.Namespace) -> int:
     """List all auto-detection rules."""
     rules = load_rules()
     if not rules:
-        console.print("[dim]No auto-detection rules. Use 'gitctx rule add' to create one.[/]")
+        console.print(
+            "[dim]No auto-detection rules. Use 'gitctx rule add' to create one.[/]"
+        )
         return 0
 
     table = Table(title="Auto-Detection Rules", show_header=True)
@@ -236,19 +241,32 @@ def build_parser() -> argparse.ArgumentParser:
     # use
     p_use = sub.add_parser("use", help="Apply a profile to the current directory")
     p_use.add_argument("alias", help="Profile name to activate")
-    p_use.add_argument("--directory", "-C", default=".", help="Target directory (default: .)")
+    p_use.add_argument(
+        "--directory", "-C", default=".", help="Target directory (default: .)"
+    )
     p_use.set_defaults(func=_cmd_use)
 
     # current
     p_cur = sub.add_parser("current", help="Show the active profile")
-    p_cur.add_argument("--directory", "-C", default=".", help="Target directory (default: .)")
-    p_cur.add_argument("--quiet", "-q", action="store_true", help="Only print the alias name")
+    p_cur.add_argument(
+        "--directory", "-C", default=".", help="Target directory (default: .)"
+    )
+    p_cur.add_argument(
+        "--quiet", "-q", action="store_true", help="Only print the alias name"
+    )
     p_cur.set_defaults(func=_cmd_current)
 
     # auto
     p_auto = sub.add_parser("auto", help="Auto-detect and apply the right profile")
-    p_auto.add_argument("--directory", "-C", default=".", help="Target directory (default: .)")
-    p_auto.add_argument("--dry-run", "-n", action="store_true", help="Show what would be applied without changing config")
+    p_auto.add_argument(
+        "--directory", "-C", default=".", help="Target directory (default: .)"
+    )
+    p_auto.add_argument(
+        "--dry-run",
+        "-n",
+        action="store_true",
+        help="Show what would be applied without changing config",
+    )
     p_auto.set_defaults(func=_cmd_auto)
 
     # rule (subcommand group)
@@ -257,19 +275,33 @@ def build_parser() -> argparse.ArgumentParser:
 
     # rule add
     p_rule_add = rule_sub.add_parser("add", help="Add an auto-detection rule")
-    p_rule_add.add_argument("--profile", "-p", required=True, help="Profile to apply when rule matches")
-    p_rule_add.add_argument("--remote", "-r", default="", help="Remote URL pattern (substring or regex)")
-    p_rule_add.add_argument("--path", "-P", default="", help="Directory path glob pattern")
-    p_rule_add.add_argument("--priority", default=0, type=int, help="Rule priority (higher = checked first)")
+    p_rule_add.add_argument(
+        "--profile", "-p", required=True, help="Profile to apply when rule matches"
+    )
+    p_rule_add.add_argument(
+        "--remote", "-r", default="", help="Remote URL pattern (substring or regex)"
+    )
+    p_rule_add.add_argument(
+        "--path", "-P", default="", help="Directory path glob pattern"
+    )
+    p_rule_add.add_argument(
+        "--priority", default=0, type=int, help="Rule priority (higher = checked first)"
+    )
     p_rule_add.set_defaults(func=_cmd_rule_add)
 
     # rule list
-    p_rule_ls = rule_sub.add_parser("list", help="List all auto-detection rules", aliases=["ls"])
+    p_rule_ls = rule_sub.add_parser(
+        "list", help="List all auto-detection rules", aliases=["ls"]
+    )
     p_rule_ls.set_defaults(func=_cmd_rule_list)
 
     # rule remove
-    p_rule_rm = rule_sub.add_parser("remove", help="Remove a rule by index", aliases=["rm"])
-    p_rule_rm.add_argument("index", type=int, help="Rule number to remove (from 'rule list')")
+    p_rule_rm = rule_sub.add_parser(
+        "remove", help="Remove a rule by index", aliases=["rm"]
+    )
+    p_rule_rm.add_argument(
+        "index", type=int, help="Rule number to remove (from 'rule list')"
+    )
     p_rule_rm.set_defaults(func=_cmd_rule_remove)
 
     return parser
