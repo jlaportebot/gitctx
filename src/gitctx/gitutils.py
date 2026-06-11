@@ -1,5 +1,7 @@
 """Git config operations — read and write local user settings."""
 
+from __future__ import annotations
+
 import subprocess
 
 from .profiles import Profile
