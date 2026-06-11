@@ -5,7 +5,6 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 try:
     import tomllib
@@ -153,7 +152,7 @@ def _match_path(glob_pattern: str, cwd: str = ".") -> bool:
         return False
 
 
-def auto_detect(cwd: str = ".") -> Optional[str]:
+def auto_detect(cwd: str = ".") -> str | None:
     """Auto-detect which profile to use based on rules.
 
     Checks rules in priority order. Returns the profile alias

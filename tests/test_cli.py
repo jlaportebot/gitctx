@@ -1,6 +1,7 @@
 """Tests for gitctx CLI."""
 
 import pytest
+
 from gitctx.cli import main
 
 

@@ -58,9 +58,7 @@ class TestRule:
     def test_to_dict_full(self):
         from gitctx.rules import Rule
 
-        r = Rule(
-            profile="work", remote_pattern="org", path_glob="/home/*/work", priority=5
-        )
+        r = Rule(profile="work", remote_pattern="org", path_glob="/home/*/work", priority=5)
         d = r.to_dict()
         assert d["priority"] == 5
         assert d["path_glob"] == "/home/*/work"
@@ -68,9 +66,7 @@ class TestRule:
     def test_from_dict(self):
         from gitctx.rules import Rule
 
-        r = Rule.from_dict(
-            {"profile": "oss", "remote_pattern": "github.com", "priority": 10}
-        )
+        r = Rule.from_dict({"profile": "oss", "remote_pattern": "github.com", "priority": 10})
         assert r.profile == "oss"
         assert r.priority == 10
 
@@ -117,7 +113,7 @@ class TestRuleStorage:
         assert rules[2].profile == "low"
 
     def test_remove_rule(self, tmp_config):
-        from gitctx.rules import add_rule, remove_rule, load_rules
+        from gitctx.rules import add_rule, load_rules, remove_rule
 
         add_rule("work", remote_pattern="x")
         add_rule("personal", remote_pattern="y")

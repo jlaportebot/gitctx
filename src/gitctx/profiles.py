@@ -4,7 +4,6 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Optional
 
 try:
     import tomllib
@@ -83,7 +82,7 @@ def remove_profile(alias: str) -> bool:
     return True
 
 
-def get_profile(alias: str) -> Optional[Profile]:
+def get_profile(alias: str) -> Profile | None:
     """Look up a single profile by alias."""
     return load_profiles().get(alias)
 

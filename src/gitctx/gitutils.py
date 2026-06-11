@@ -1,14 +1,11 @@
 """Git config operations — read and write local user settings."""
 
-from __future__ import annotations
-
 import subprocess
-from typing import Optional
 
 from .profiles import Profile
 
 
-def _git(*args: str, cwd: Optional[str] = None) -> str:
+def _git(*args: str, cwd: str | None = None) -> str:
     """Run a git command and return stdout."""
     result = subprocess.run(
         ["git", *args],
@@ -38,7 +35,7 @@ def _git_config_unset(key: str, cwd: str) -> None:
     )
 
 
-def _git_config_get(key: str, cwd: str) -> Optional[str]:
+def _git_config_get(key: str, cwd: str) -> str | None:
     """Get a local git config value, or None if unset."""
     result = subprocess.run(
         ["git", "config", "--local", "--get", key],
@@ -71,7 +68,7 @@ def apply_profile(profile: Profile, cwd: str = ".") -> None:
         _git_config_unset("user.signingkey", cwd)
 
 
-def detect_profile(cwd: str = ".") -> Optional[str]:
+def detect_profile(cwd: str = ".") -> str | None:
     """Detect which profile is active in the current repo by matching config values.
 
     Returns the profile alias if a match is found, else None.
@@ -92,7 +89,7 @@ def detect_profile(cwd: str = ".") -> Optional[str]:
     return None
 
 
-def get_current_config(cwd: str = ".") -> dict[str, Optional[str]]:
+def get_current_config(cwd: str = ".") -> dict[str, str | None]:
     """Return the current local git user config."""
     return {
         "name": _git_config_get("user.name", cwd),

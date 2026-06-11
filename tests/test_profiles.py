@@ -34,9 +34,7 @@ class TestProfile:
         assert p.signingkey == ""
 
     def test_from_dict_with_key(self):
-        p = Profile.from_dict(
-            {"name": "Bob", "email": "bob@x.com", "signingkey": "XYZ"}
-        )
+        p = Profile.from_dict({"name": "Bob", "email": "bob@x.com", "signingkey": "XYZ"})
         assert p.signingkey == "XYZ"
 
     def test_roundtrip(self):
@@ -79,7 +77,7 @@ class TestProfileStorage:
         assert profiles["work"].name == "New"
 
     def test_remove_existing(self, tmp_config):
-        from gitctx.profiles import add_profile, remove_profile, load_profiles
+        from gitctx.profiles import add_profile, load_profiles, remove_profile
 
         add_profile("work", name="Jane", email="jane@work.com")
         assert remove_profile("work") is True
