@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict, Optional
 
 try:
     import tomllib
@@ -26,14 +27,14 @@ class Profile:
     email: str
     signingkey: str = ""
 
-    def to_dict(self) -> dict[str, str]:
+    def to_dict(self) -> Dict[str, str]:
         d = {"name": self.name, "email": self.email}
         if self.signingkey:
             d["signingkey"] = self.signingkey
         return d
 
     @classmethod
-    def from_dict(cls, data: dict[str, str]) -> Profile:
+    def from_dict(cls, data: Dict[str, str]) -> Profile:
         return cls(
             name=data["name"],
             email=data["email"],
@@ -46,7 +47,7 @@ def _ensure_config_dir() -> None:
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def load_profiles() -> dict[str, Profile]:
+def load_profiles() -> Dict[str, Profile]:
     """Load all profiles from the TOML config file."""
     if not PROFILES_FILE.exists():
         return {}
@@ -55,7 +56,7 @@ def load_profiles() -> dict[str, Profile]:
     return {name: Profile.from_dict(data) for name, data in raw.items()}
 
 
-def save_profiles(profiles: dict[str, Profile]) -> None:
+def save_profiles(profiles: Dict[str, Profile]) -> None:
     """Persist all profiles to the TOML config file."""
     _ensure_config_dir()
     raw = {name: p.to_dict() for name, p in profiles.items()}
@@ -82,11 +83,11 @@ def remove_profile(alias: str) -> bool:
     return True
 
 
-def get_profile(alias: str) -> Profile | None:
+def get_profile(alias: str) -> Optional[Profile]:
     """Look up a single profile by alias."""
     return load_profiles().get(alias)
 
 
-def list_profiles() -> dict[str, Profile]:
+def list_profiles() -> Dict[str, Profile]:
     """Return all profiles."""
     return load_profiles()

@@ -5,6 +5,7 @@ from __future__ import annotations
 import re
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Dict, List, Optional, Union
 
 try:
     import tomllib
@@ -30,8 +31,8 @@ class Rule:
     path_glob: str = ""
     priority: int = 0  # higher = checked first; default 0
 
-    def to_dict(self) -> dict[str, str | int]:
-        d: dict[str, str | int] = {"profile": self.profile}
+    def to_dict(self) -> Dict[str, Union[str, int]]:
+        d: Dict[str, Union[str, int]] = {"profile": self.profile}
         if self.remote_pattern:
             d["remote_pattern"] = self.remote_pattern
         if self.path_glob:
@@ -41,7 +42,7 @@ class Rule:
         return d
 
     @classmethod
-    def from_dict(cls, data: dict[str, str | int]) -> Rule:
+    def from_dict(cls, data: Dict[str, Union[str, int]]) -> Rule:
         return cls(
             profile=str(data["profile"]),
             remote_pattern=str(data.get("remote_pattern", "")),
@@ -55,7 +56,7 @@ def _ensure_config_dir() -> None:
     CONFIG_DIR.mkdir(parents=True, exist_ok=True)
 
 
-def load_rules() -> list[Rule]:
+def load_rules() -> List[Rule]:
     """Load all rules from the TOML config file, sorted by priority descending."""
     if not RULES_FILE.exists():
         return []
@@ -66,7 +67,7 @@ def load_rules() -> list[Rule]:
     return rules
 
 
-def save_rules(rules: list[Rule]) -> None:
+def save_rules(rules: List[Rule]) -> None:
     """Persist all rules to the TOML config file."""
     _ensure_config_dir()
     raw = {"rules": [r.to_dict() for r in rules]}
@@ -105,7 +106,7 @@ def remove_rule(index: int) -> bool:
     return True
 
 
-def _get_remote_urls(cwd: str = ".") -> list[str]:
+def _get_remote_urls(cwd: str = ".") -> List[str]:
     """Get all remote URLs for the current repo."""
     import subprocess
 
@@ -126,7 +127,7 @@ def _get_remote_urls(cwd: str = ".") -> list[str]:
     return list(set(urls))  # deduplicate
 
 
-def _match_remote(pattern: str, urls: list[str]) -> bool:
+def _match_remote(pattern: str, urls: List[str]) -> bool:
     """Check if any remote URL matches the pattern (substring or regex)."""
     for url in urls:
         # Try as a simple substring match first
@@ -152,7 +153,7 @@ def _match_path(glob_pattern: str, cwd: str = ".") -> bool:
         return False
 
 
-def auto_detect(cwd: str = ".") -> str | None:
+def auto_detect(cwd: str = ".") -> Optional[str]:
     """Auto-detect which profile to use based on rules.
 
     Checks rules in priority order. Returns the profile alias
