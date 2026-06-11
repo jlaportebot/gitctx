@@ -25,7 +25,7 @@ dependencies = ["rich>=13.0", "tomli>=2.0; python_version < '3.11'", "tomli-w>=1
 gitctx = "gitctx.cli:cli_entry"
 
 [project.optional-dependencies]
-dev = ["pytest>=7.0", "pytest-cov", "ruff>=0.15"]
+dev = ["pytest>=7.0", "pytest-cov", "ruff>=0.4"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
@@ -34,3 +34,15 @@ testpaths = ["tests"]
 Homepage = "https://github.com/jlaportebot/gitctx"
 Repository = "https://github.com/jlaportebot/gitctx"
 Issues = "https://github.com/jlaportebot/gitctx/issues"
+
+[tool.ruff]
+target-version = "py39"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "UP", "B", "SIM"]
+ignore = ["E501", "N806", "N803"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

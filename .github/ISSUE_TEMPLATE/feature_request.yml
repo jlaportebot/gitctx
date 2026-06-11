@@ -1,0 +1,70 @@
+name: Feature Request
+about: Propose a new feature or enhancement
+title: "[FEAT] "
+labels: ["enhancement"]
+assignees: ""
+body:
+  - type: markdown
+    attributes:
+      value: "Thanks for the idea! Describe what you'd like to see."
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem / Motivation
+      description: What problem does this solve? Why is it needed?
+      placeholder: "No way to list all repos using a specific profile..."
+    validations:
+      required: true
+  - type: textarea
+    id: solution
+    attributes:
+      label: Proposed Solution
+      description: How should it work? CLI flags, commands, config options.
+      placeholder: "Add `gitctx list --profile work` to show all repos with work profile applied..."
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives Considered
+      description: What else did you think of?
+      placeholder: "Could parse git config manually, but built-in command is better"
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Small (CLI flag, config option, single function)
+        - Medium (new command, rule type, detection logic)
+        - Large (major architecture change)
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - CLI (commands, flags, output)
+        - Profiles (management, fields)
+        - Rules (detection, matching, priority)
+        - Auto-detection (logic, performance)
+        - Shell integration (hooks, prompt)
+        - Config storage (TOML, location, migration)
+        - Tests / CI / tooling
+        - Docs
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: willingness
+    attributes:
+      label: Willingness
+      options:
+        - label: I'll implement this (assign me)
+        - label: I can test / review
+        - label: Just the idea
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional Context
+      description: Mockups, links to related issues, references.

@@ -1,5 +1,10 @@
 # gitctx
 
+[![PyPI version](https://img.shields.io/pypi/v/gitctx.svg)](https://pypi.org/project/gitctx/)
+[![Python versions](https://img.shields.io/pypi/pyversions/gitctx.svg)](https://pypi.org/project/gitctx/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Contributor Covenant](https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg)](CODE_OF_CONDUCT.md)
+
 > **Switch Git user configs per directory — with auto-detection** — work email here, personal email there, OSS identity there.
 
 Ever commit with your work email to a personal repo? Or forget to set your signing key for an open-source project? **gitctx** lets you define named profiles, apply them to any directory, and **auto-detect the right profile** based on the repo's remote URL or path.
@@ -48,7 +53,7 @@ gitctx rule add --profile work --remote "github.com/mycompany"
 gitctx rule add --profile work --path "/home/jane/work/*"
 
 # Use regex for more complex matching
-gitctx rule add --profile oss --remote "github\.com/janedoe/"
+gitctx rule add --profile oss --remote "github\\.com/janedoe/"
 
 # Higher priority rules win
 gitctx rule add --profile client-a --remote "github.com/client-a" --priority 10
@@ -159,6 +164,39 @@ priority = 10
 | `gitctx rule list` | List all rules |
 | `gitctx rule remove <index>` | Remove a rule |
 
+## Contributing
+
+We welcome contributions! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+**Quick start for contributors:**
+
+```bash
+git clone https://github.com/jlaportebot/gitctx.git
+cd gitctx
+python -m venv .venv
+source .venv/bin/activate
+pip install -e ".[dev]"
+
+# Run tests
+pytest -v
+
+# Lint & format (once configured)
+ruff check .
+ruff format --check .
+```
+
+**Good first issues:** Look for the [`good first issue` label](https://github.com/jlaportebot/gitctx/issues?q=label%3A%22good+first+issue%22) — we'll mentor you through it.
+
+**Questions?** Open a [Discussion](https://github.com/jlaportebot/gitctx/discussions) or [issue](https://github.com/jlaportebot/gitctx/issues/new/choose).
+
 ## License
 
-MIT © Jonathan La Porte
+MIT © Jonathan La Porte — see [LICENSE](LICENSE) for details.
+
+## Security
+
+See [SECURITY.md](SECURITY.md) for reporting vulnerabilities.
+
+## Code of Conduct
+
+See [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). We follow the Contributor Covenant.
